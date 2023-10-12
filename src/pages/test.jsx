@@ -1,127 +1,131 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-// const API_KEY = 'AIzaSyCP88PEFyxg4P7TQpYcLfol1SDXJKU4UUo';
-// const apiKey='3bc7bdc1c7mshd59dad7435e0c27p1eafa3jsn71b9c7cf1d6f'
-// const API_URL = `https://www.googleapis.com/youtube/v3?key=AIzaSyCP88PEFyxg4P7TQpYcLfol1SDXJKU4UUo`;
-const apiUrl='https://youtube-v31.p.rapidapi.com/captions?key=3bc7bdc1c7mshd59dad7435e0c27p1eafa3jsn71b9c7cf1d6f';
+import {useState,useEffect} from 'react'
 
 function Test() {
-    const [videos, setVideos] = useState([]);
-    // const [nextPageToken, setNextPageToken] = useState('');
-    // const [loading, setLoading] = useState(true);
+  const [searchQuery,setSearchQuery]=useState("")
+  const [videos, setVideos] = useState([]); // State to store video data
 
-    useEffect(() => {
-      async function fetchVideos(){
-        const response= await fetch(apiUrl);
-        const data=await response.json();
-        console.log(data)
-  setVideos(data.responce.url)
+  const apiKey = `AIzaSyAS88zJ7pzPID4v7chRbKPfHh6l4W5BqKI`;
+  // searchQuery = "gaming";
 
+  const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${apiKey}&maxResults=50`;
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const response = await fetch(apiUrl);
+        // console.log(response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        setVideos(data.items); // Set the video data to the state
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-        fetchVideos('');
-    }, []);
+    }
+    fetchVideos();
+  }, []);
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const url2 =`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchQuery}`;
 
-    // const fetchVideos = (pageToken) => {
-    //     setLoading(true);
-    //     axios  
-    //         .get(API_URL, {
-    //             params: {
-    //                 key: API_KEY,
-    //                 q: 'Your search query', // Replace with your search query
-    //                 type: 'video',
-    //                 part: 'snippet',
-    //                 maxResults: 100000, // Adjust as needed
-    //                 pageToken: pageToken,
-    //         },
-    //         })
-    //         .then((response) => {
-    //             setVideos([...videos, ...response.data.items]);
-    //             setNextPageToken(response.data.nextPageToken);
-    //             setLoading(false);
-    //         })
-    //         .catch((error) => {
-    //             console.error('Error fetching data from YouTube API:', error);
-    //             setLoading(false);
-    //         });
- 
-    // };
-    // const handleScroll = () => {
-    //     if (
-    //         window.innerHeight + document.documentElement.scrollTop ===
-    //         document.documentElement.offsetHeight
-    //     ) {
-    //         if (nextPageToken) {
-    //             fetchVideos(nextPageToken);
-    //         }
-    //     }
-    // };
-    // useEffect(() => {
-    //     fetchVideos('');
-    // }, []);
+    try {
+      const res = await fetch(url2);
+      const data = await res.json();
+      console.log(data);
+      setVideos(data.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  // function truncateText(text, maxLength) {
+  //   if (text.length <= maxLength) {
+  //     return text;
+  //   }
+  //   return text.slice(0, maxLength) + "...";
+  // }
   return (
     <div>
-    <div className="bg-gray-800 p-4">
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-12 h-12 mr-2"
-              src="https://www.gstatic.com/webp/gallery/1.jpg"
-              alt="YouTube Logo"
+    <nav className='flex justify-between items-center  h-24 w-full p-[40px] pt-[20px]'>
+      <img src="/public/yt-logos.png" alt="" className='h-14 w-36' />
+      <div className='md:w-[550px] flex justify-between items-center'>
+      <div className='flex justify-between items-center h-[44px] m-[12px] border-[1px]  md:w-[500px] rounded-[20px] border-gray-500 pt-3 pb-3' onClick={handleClick}>
+      <input
+               className='h-[30px] m-[12px] md:w-[500px] border-none p-5 pl-0 outline-none bg-transparent  text-gray-500'
+            type="text"
+            maxLength={50}
+            placeholder='Search'
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
             />
-            <span className="text-white text-xl font-bold">YouTube</span>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="text"
-              className="bg-gray-700 text-white px-4 py-2 rounded-md mr-2"
-              placeholder="Search"
-            />
-            <button className="bg-red-600 text-white px-4 py-2 rounded-md">
-              Search
+            <button className='bg-gray-300 text-gray-400 p-[9px] btn'>
+            <i className="bi bi-search"></i>
             </button>
-          </div>
-        </div>
       </div>
+      <button className='mic bg-gray-300 h-[20px] w-[20px]'>
+      <i className="bi bi-mic-fill"></i>
+      </button>
+
+      </div>
+      {/* create logo */}
+      <div className='w-[150px] flex justify-between items-center'>
+      <div className='flex flex-col mt-5'>
+      <i className="bi bi-camera-video text-2xl"></i>
+      <small>Create</small>
+      </div>
+      <i className="bi bi-bell text-2xl"></i>
+      <div className='signin'>A</div>
+      </div>
+      {/* <div className='flex space-x-4 ml-auto mr-2 mb-10 '>
+      </div> */}
+    </nav>
+    <div className='container'>
+    {/* sidebar */}
+    <div className='sidebar w-10 flex flex-col z-10'>
+    <i className="bi bi-list text-2xl font-light"></i>
+    <i className="bi bi-house-fill text-2xl"></i>
+    <small className='ml-[-5px]'>Home</small>
+    <i className="bi bi-caret-right-square text-2xl mt-8"></i>
+    <small className='ml-[-5px]'>Shorts</small>
+    <i className="bi bi-collection-play-fill text-2xl mt-8"></i>
+    <small className='ml-[-20px]'>Supscriptions</small>
+    <i className="bi bi-youtube text-2xl mt-8"></i>
+    <small className='ml-[-7px]'>Library</small>
     </div>
-        <div className="App " >
-            <h1>YouTube Video List</h1>
-            <div className='flex container-fluid  mx-auto'>
-            <ul className='list-unstyled flex container-fluid gap-4 mx-auto'>
-                {videos.map((video) => (
-                    <li key={video.id.videoId} className=''>
-                        <img src={video.snippet.thumbnails.medium.url} alt={video.snippet.title} />
-                        <h3 className=''>{video.snippet.title}</h3>
-                    </li>
-                ))}
-            </ul>
-            </div>
-            {loading && <p>Loading...</p>}
-            <div onClick={handleScroll}></div>
-        </div>
+    <div className='flex flex-wrap gap-2 justify-center items-center mt-10'>
+  {videos?.map((item)=>{
+    return(
+      <>
+      <div className='flex flex-col items-center justify-center mt-10 '>
+      <img src={item.snippet.thumbnails.high.url} alt="" className='w-[340px] h-64 rounded-lg'/>
+      <h1 className='w-80 h-[20px] overflow-hidden font-bold'>{item.snippet.title}</h1>
+      <div className='flex w-[340px] mt-2 justify-center items-center'>
+      <i className="bi bi-person-circle"></i>
+      <h3 className='w-80 ml-[30px]'>{item.snippet.channelTitle}</h3>
+      </div>
+      {/* <div className='w-80 h-36 p-3'>{item.snippet.description}</div> */}
+
+      </div>
+      </>
+    )
+  })}
+</div>      
+    {/* nav */}
+    <div className='flex justify-center items-center'></div>
+        
+    </div>
+
     </div>
   )
 }
 
 export default Test
-// import axios from "axios";
-// const options = {
-//   method: 'GET',
-//   url: 'https://youtube-v31.p.rapidapi.com/captions',
-//   params: {
-//     part: 'snippet',
-//     videoId: 'M7FIvfx5J10'
-//   },
-//   headers: {
-//     'X-RapidAPI-Key': '3bc7bdc1c7mshd59dad7435e0c27p1eafa3jsn71b9c7cf1d6f',
-//     'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
-//   }
-// };
-
-// try {
-// 	const response = await fetch(options);
-// 	console.log(response.data);
-// } catch (error) {
-// 	console.log(error);
-// }
+{/* <div className='flex justify-between items-center w-full'>
+      <h3>Latest</h3>
+      <div>
+        Manage
+      </div>
+    </div> */}

@@ -19,3 +19,50 @@
     -ms-border-radius: 12px;
     -o-border-radius: 12px;
 }
+.container{
+    display: flex;
+    /* justify-content: space-between; */
+    padding: 20px 30px 30px 30px;
+}
+nav{
+    position: fixed;
+    /* top: 20px; */
+    left: 20px;
+    background-color: white;
+}
+.btn{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    position: relative;
+    height: 43px;
+    border: none;
+    outline: none;
+}
+.mic{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.signin{
+    width: 20px;
+    height: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border-radius: 50%;
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}

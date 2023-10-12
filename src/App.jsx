@@ -11,6 +11,7 @@ import {
 // import Test from './pages/test';
 // import Golo from './pages/yt';
 import Coctail from './pages/coctail';
+import Test from './pages/test';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
     <>
      <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Coctail/>} />
+        <Route path="/" element={<Test/>} />
         <Route path="/about" element={<About/>} />
         {/* <Route path="/users/*" element={<UserApp />} /> */}
       </Routes>
